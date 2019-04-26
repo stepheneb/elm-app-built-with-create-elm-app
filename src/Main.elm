@@ -1,8 +1,9 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Html exposing (Html, div, h1, img, text)
-import Html.Attributes exposing (src)
+import Html exposing (Html, div, h1, img, input, text)
+import Html.Attributes exposing (..)
+import Html.Events exposing (onInput)
 
 
 
@@ -10,12 +11,13 @@ import Html.Attributes exposing (src)
 
 
 type alias Model =
-    {}
+    { content : String
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { content = "" }, Cmd.none )
 
 
 
@@ -24,11 +26,19 @@ init =
 
 type Msg
     = NoOp
+    | ReverseString String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
+        ReverseString string ->
+            ( { model | content = string }
+            , Cmd.none
+            )
 
 
 
@@ -40,6 +50,8 @@ view model =
     div []
         [ img [ src "/logo.svg" ] []
         , h1 [] [ text "Your Elm App is working on this rainy morning in Boston!" ]
+        , input [ placeholder "Enter text to reverse", value model.content, onInput ReverseString ] []
+        , div [] [ text (String.reverse model.content) ]
         ]
 
 
