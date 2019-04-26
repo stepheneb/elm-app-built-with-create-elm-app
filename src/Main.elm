@@ -10,13 +10,22 @@ import Html.Events exposing (onInput)
 ---- MODEL ----
 
 
+type alias Todo =
+    String
+
+
 type alias Model =
-    {}
+    { todos : List Todo }
+
+
+initialModel : Model
+initialModel =
+    { todos = [ "hello", "world" ] }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( initialModel, Cmd.none )
 
 
 
@@ -42,11 +51,13 @@ view : Model -> Html Msg
 view model =
     div []
         [ h1 [] [ text "Todos" ]
-        , ul []
-            [ li [] [ text "item1" ]
-            , li [] [ text "item2" ]
-            ]
+        , ul [] <| List.map todoView model.todos
         ]
+
+
+todoView : String -> Html Msg
+todoView string =
+    li [] [ text string ]
 
 
 
