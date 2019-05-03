@@ -9,18 +9,54 @@
   height: inherit;
 }
 
+html {
+}
+
+* {
+  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  font-size:24px;
+}
+
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
-  text-align: center;
   color: #293c4b;
+  font-size:24px;
 }
 
 h1 {
-  font-size: 30px;
+  font-size: 2em;
 }
 
 img {
   margin: 20px 0;
   max-width: 200px;
+}
+
+input {
+  width: 24em;
+  font-size: 1em;
+  padding: 0.2em 0.4em;
+}
+
+input[type='checkbox'] {
+  width: 0.8em;
+  height: 0.8em;
+  margin-right: 0.75em;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+li {
+  margin: 0.5em 0em;
+}
+
+.flex-grid {
+  display: flex;
+}
+.col {
+  flex: 1;
 }
