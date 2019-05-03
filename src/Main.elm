@@ -2,7 +2,7 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Array
 import Browser
-import Html exposing (Html, button, div, form, h1, img, input, li, text, ul)
+import Html exposing (Html, button, div, form, h1, header, img, input, li, text, ul)
 import Html.Attributes exposing (checked, class, placeholder, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 
@@ -11,9 +11,14 @@ import Html.Events exposing (onClick, onInput, onSubmit)
 ---- MODEL ----
 
 
+type TodoStatus
+    = Incomplete
+    | Completed
+
+
 type alias Todo =
     { description : String
-    , completed : Bool
+    , status : TodoStatus
     }
 
 
@@ -27,7 +32,12 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    { todos = [], pendingTodo = "" }
+    { todos =
+        [ { description = "First todo", status = Incomplete }
+        , { description = "Second todo", status = Completed }
+        ]
+    , pendingTodo = ""
+    }
 
 
 init : ( Model, Cmd Msg )
@@ -48,7 +58,17 @@ type Msg
 
 toTodo : String -> Todo
 toTodo content =
-    { description = content, completed = False }
+    { description = content, status = Incomplete }
+
+
+toggleTodoStatus : TodoStatus -> TodoStatus
+toggleTodoStatus status =
+    case status of
+        Completed ->
+            Incomplete
+
+        Incomplete ->
+            Completed
 
 
 toggleCompletedState : Todo -> TodoList -> TodoList
@@ -56,7 +76,7 @@ toggleCompletedState todo todos =
     List.map
         (\t ->
             if t.description == todo.description then
-                { t | completed = not t.completed }
+                { t | status = toggleTodoStatus todo.status }
 
             else
                 t
@@ -104,10 +124,27 @@ view model =
                     ]
                     []
                 ]
-            , ul [] <| List.map todoView model.todos
+            , todoListView Incomplete "Incomplete" model.todos
+            , todoListView Completed "Completed" model.todos
             ]
         , div [ class "col" ] []
         ]
+
+
+todoListView : TodoStatus -> String -> TodoList -> Html Msg
+todoListView status statusName todolist =
+    let
+        filteredList =
+            List.filter (\t -> t.status == status) todolist
+    in
+    if List.length filteredList == 0 then
+        div [] []
+
+    else
+        div []
+            [ header [] [ text statusName ]
+            , ul [] <| List.map todoView <| filteredList
+            ]
 
 
 todoView : Todo -> Html Msg
@@ -116,7 +153,7 @@ todoView todo =
         []
         [ input
             [ type_ "checkbox"
-            , checked <| todo.completed
+            , checked <| todo.status == Completed
             , onClick (ToggleCompletedState todo)
             ]
             []
