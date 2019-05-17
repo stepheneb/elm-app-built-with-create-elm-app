@@ -1,11 +1,11 @@
 {
-  "main.css": "/elm-app-built-with-create-elm-app/static/css/main.197f1709.chunk.css",
-  "main.js": "/elm-app-built-with-create-elm-app/static/js/main.63319357.chunk.js",
-  "main.css.map": "/elm-app-built-with-create-elm-app/static/css/main.197f1709.chunk.css.map",
-  "main.js.map": "/elm-app-built-with-create-elm-app/static/js/main.63319357.chunk.js.map",
+  "main.css": "/elm-app-built-with-create-elm-app/static/css/main.fa9ff154.chunk.css",
+  "main.js": "/elm-app-built-with-create-elm-app/static/js/main.42e8111f.chunk.js",
+  "main.css.map": "/elm-app-built-with-create-elm-app/static/css/main.fa9ff154.chunk.css.map",
+  "main.js.map": "/elm-app-built-with-create-elm-app/static/js/main.42e8111f.chunk.js.map",
   "runtime~main.js": "/elm-app-built-with-create-elm-app/static/js/runtime~main.573d5742.js",
   "runtime~main.js.map": "/elm-app-built-with-create-elm-app/static/js/runtime~main.573d5742.js.map",
-  "vendors~main.js": "/elm-app-built-with-create-elm-app/static/js/vendors~main.3ca81432.chunk.js",
-  "vendors~main.js.map": "/elm-app-built-with-create-elm-app/static/js/vendors~main.3ca81432.chunk.js.map",
+  "vendors~main.js": "/elm-app-built-with-create-elm-app/static/js/vendors~main.eef4dd01.chunk.js",
+  "vendors~main.js.map": "/elm-app-built-with-create-elm-app/static/js/vendors~main.eef4dd01.chunk.js.map",
   "index.html": "/elm-app-built-with-create-elm-app/index.html"
 }
