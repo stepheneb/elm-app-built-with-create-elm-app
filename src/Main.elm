@@ -3,13 +3,14 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Array
 import Browser
 import Html exposing (Html, button, div, form, h1, header, img, input, li, text, ul)
-import Html.Attributes exposing (checked, class, placeholder, type_, value)
+import Html.Attributes exposing (checked, class, placeholder, src, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
+import Url exposing (Url)
+import Browser.Navigation
 
 
 
 ---- MODEL ----
-
 
 type TodoStatus
     = Incomplete
@@ -27,23 +28,28 @@ type alias TodoList =
 
 
 type alias Model =
-    { todos : TodoList, pendingTodo : String }
+    { todos : TodoList, pendingTodo : String , okIconPath: String}
 
+type alias Flags = String
 
-initialModel : Model
-initialModel =
+initialModel : String -> Model
+initialModel imagePath =
     { todos =
         [ { description = "First todo", status = Incomplete }
         , { description = "Second todo", status = Completed }
         ]
     , pendingTodo = ""
+    , okIconPath = imagePath
     }
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( initialModel, Cmd.none )
+init : Flags -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init flags url key =
+    ( initialModel flags, Cmd.none )
 
+subscriptions : Model -> Sub msg
+subscriptions model =
+  Sub.none
 
 
 ---- UPDATE ----
@@ -54,6 +60,8 @@ type Msg
     | AddTodo
     | ToggleCompletedState Todo
     | UpdatePendingTodo String
+    | ClickedLink Browser.UrlRequest
+    | ChangedUrl Url.Url
 
 
 toTodo : String -> Todo
@@ -105,31 +113,43 @@ update msg model =
             , Cmd.none
             )
 
+        ClickedLink urlRequest ->
+          ( model, Cmd.none )
 
+        ChangedUrl url ->
+          ( model, Cmd.none )
 
 ---- VIEW ----
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    div [ class "flex-grid" ]
-        [ div [ class "col" ] []
-        , div [ class "col" ]
-            [ h1 [] [ text "Todos" ]
-            , form [ onSubmit AddTodo ]
-                [ input
-                    [ value model.pendingTodo
-                    , placeholder "Enter new Todo here ..."
-                    , onInput UpdatePendingTodo
-                    ]
-                    []
-                ]
-            , todoListView Incomplete "Incomplete" model.todos
-            , todoListView Completed "Completed" model.todos
-            ]
-        , div [ class "col" ] []
-        ]
+  { title = "Simple Todos"
+  , body =
+    [ div [ class "flex-grid" ]
+      [ div [ class "upper-left" ] [
+        img [ src model.okIconPath ] []
+      ]
 
+          , div [ class "col" ] []
+          , div [ class "col" ]
+              [ h1 [] [ text "Todos" ]
+              , form [ onSubmit AddTodo ]
+                  [ input
+                      [ value model.pendingTodo
+                      , placeholder "Enter new Todo here ..."
+                      , onInput UpdatePendingTodo
+                      ]
+                      []
+                  ]
+              , todoListView Incomplete "Incomplete" model.todos
+              , todoListView Completed "Completed" model.todos
+              ]
+          , div [ class "col" ] []
+          ]
+
+      ]
+    }
 
 todoListView : TodoStatus -> String -> TodoList -> Html Msg
 todoListView status statusName todolist =
@@ -165,11 +185,13 @@ todoView todo =
 ---- PROGRAM ----
 
 
-main : Program () Model Msg
+main : Program String Model Msg
 main =
-    Browser.element
-        { view = view
-        , init = \_ -> init
-        , update = update
-        , subscriptions = always Sub.none
-        }
+      Browser.application
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    , onUrlRequest = ClickedLink
+    , onUrlChange = ChangedUrl
+    }
