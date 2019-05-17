@@ -1,0 +1,25 @@
+{
+  "name": "elm-create-elm-app-app1",
+  "version": "1.0.0",
+  "description": "Building a simple Elm app using [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "elmapp.config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "elm-app build",
+    "deploy": "gh-pages -d build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stepheneb/elm-app-built-with-create-elm-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stepheneb/elm-app-built-with-create-elm-app/issues"
+  },
+  "homepage": "https://github.com/stepheneb/elm-app-built-with-create-elm-app#readme"
+}
