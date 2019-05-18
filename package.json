@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "elm-app build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "build-deploy": "elm-app build && gh-pages -d build"
   },
   "repository": {
     "type": "git",
