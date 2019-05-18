@@ -4,7 +4,7 @@ import Array
 import Browser
 import Browser.Navigation
 import Html exposing (Html, button, div, form, h1, header, img, input, li, text, ul)
-import Html.Attributes exposing (checked, class, placeholder, src, type_, value)
+import Html.Attributes exposing (alt, checked, class, placeholder, src, title, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Url exposing (Url)
 
@@ -96,6 +96,7 @@ type Msg
     | UpdatePendingTodo String
     | ClickedLink Browser.UrlRequest
     | ChangedUrl Url.Url
+    | EraseAllTodos
 
 
 toTodo : String -> Todo
@@ -157,6 +158,10 @@ update msg model =
             , Cmd.none
             )
 
+        EraseAllTodos ->
+            ( { model | todos = [] }
+            , Cmd.none
+            )
 
 
 
@@ -171,8 +176,15 @@ view model =
             [ div [ class "upper-left" ]
                 [ img [ src model.img.actionOkIcon ] []
                 ]
-            , div [ class "upper-right" ]
-                [ img [ src model.img.actionCancelIcon ] []
+            , div
+                [ class "upper-right" ]
+                [ img
+                    [ src model.img.actionCancelIcon
+                    , alt "Erase all Todos"
+                    , title "Erase all Todos"
+                    , onClick EraseAllTodos
+                    ]
+                    []
                 ]
             , div [ class "lower-left" ]
                 [ img [ src model.img.appBabelfishIcon ] []
