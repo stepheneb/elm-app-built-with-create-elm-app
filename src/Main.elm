@@ -13,13 +13,17 @@ import Url exposing (Url)
 ---- PROGRAM ----
 
 
-type alias ImagePaths =
+
+type alias Images =
     { actionOkIcon : String
     , actionCancelIcon : String
+    , appBabelfishIcon : String
+    , wetPinkTulipSmall : String
     }
 
 
-main : Program ImagePaths Model Msg
+
+main : Program Images Model Msg
 main =
     Browser.application
         { init = init
@@ -31,14 +35,13 @@ main =
         }
 
 
-init : ImagePaths -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init imagePaths url key =
-    ( initialModel imagePaths, Cmd.none )
+init : Images -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init images url key =
+    ( initialModel images url key, Cmd.none )
 
 
 
 ---- MODEL ----
-
 
 type TodoStatus
     = Incomplete
@@ -58,18 +61,22 @@ type alias TodoList =
 type alias Model =
     { todos : TodoList
     , pendingTodo : String
-    , images : ImagePaths
+    , url : Url.Url
+    , key : Browser.Navigation.Key
+    , img : Images
     }
 
 
-initialModel : ImagePaths -> Model
-initialModel imagePaths =
+initialModel : Images -> Url.Url -> Browser.Navigation.Key -> Model
+initialModel images url key =
     { todos =
         [ { description = "First todo", status = Incomplete }
         , { description = "Second todo", status = Completed }
         ]
     , pendingTodo = ""
-    , images = imagePaths
+    , url = url
+    , key = key
+    , img = images
     }
 
 
@@ -141,10 +148,15 @@ update msg model =
             )
 
         ClickedLink urlRequest ->
-            ( model, Cmd.none )
+            ( model
+            , Cmd.none
+            )
 
         ChangedUrl url ->
-            ( model, Cmd.none )
+            ( model
+            , Cmd.none
+            )
+
 
 
 
@@ -157,11 +169,18 @@ view model =
     , body =
         [ div [ class "flex-grid" ]
             [ div [ class "upper-left" ]
-                [ img [ src model.images.actionOkIcon ] []
+                [ img [ src model.img.actionOkIcon ] []
                 ]
             , div [ class "upper-right" ]
-                [ img [ src model.images.actionCancelIcon ] []
+                [ img [ src model.img.actionCancelIcon ] []
                 ]
+            , div [ class "lower-left" ]
+                [ img [ src model.img.appBabelfishIcon ] []
+                ]
+            , div [ class "lower-right" ]
+                [ img [ src model.img.wetPinkTulipSmall ] []
+                ]
+
             , div [ class "col" ] []
             , div [ class "col" ]
                 [ h1 [] [ text "Todos" ]

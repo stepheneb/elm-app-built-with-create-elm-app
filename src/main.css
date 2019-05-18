@@ -50,6 +50,18 @@ div.upper-right {
   right: 20px;
 }
 
+div.lower-left {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+}
+
+div.lower-right {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+
 input {
   width: 24em;
   font-size: 1em;
