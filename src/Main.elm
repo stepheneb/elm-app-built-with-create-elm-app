@@ -2,15 +2,43 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Array
 import Browser
+import Browser.Navigation
 import Html exposing (Html, button, div, form, h1, header, img, input, li, text, ul)
 import Html.Attributes exposing (checked, class, placeholder, src, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Url exposing (Url)
-import Browser.Navigation
+
+
+
+---- PROGRAM ----
+
+
+type alias ImagePaths =
+    { actionOkIcon : String
+    , actionCancelIcon : String
+    }
+
+
+main : Program ImagePaths Model Msg
+main =
+    Browser.application
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = subscriptions
+        , onUrlRequest = ClickedLink
+        , onUrlChange = ChangedUrl
+        }
+
+
+init : ImagePaths -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init imagePaths url key =
+    ( initialModel imagePaths, Cmd.none )
 
 
 
 ---- MODEL ----
+
 
 type TodoStatus
     = Incomplete
@@ -28,28 +56,27 @@ type alias TodoList =
 
 
 type alias Model =
-    { todos : TodoList, pendingTodo : String , okIconPath: String}
+    { todos : TodoList
+    , pendingTodo : String
+    , images : ImagePaths
+    }
 
-type alias Flags = String
 
-initialModel : String -> Model
-initialModel imagePath =
+initialModel : ImagePaths -> Model
+initialModel imagePaths =
     { todos =
         [ { description = "First todo", status = Incomplete }
         , { description = "Second todo", status = Completed }
         ]
     , pendingTodo = ""
-    , okIconPath = imagePath
+    , images = imagePaths
     }
 
 
-init : Flags -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init flags url key =
-    ( initialModel flags, Cmd.none )
-
 subscriptions : Model -> Sub msg
 subscriptions model =
-  Sub.none
+    Sub.none
+
 
 
 ---- UPDATE ----
@@ -114,42 +141,46 @@ update msg model =
             )
 
         ClickedLink urlRequest ->
-          ( model, Cmd.none )
+            ( model, Cmd.none )
 
         ChangedUrl url ->
-          ( model, Cmd.none )
+            ( model, Cmd.none )
+
+
 
 ---- VIEW ----
 
 
 view : Model -> Browser.Document Msg
 view model =
-  { title = "Simple Todos"
-  , body =
-    [ div [ class "flex-grid" ]
-      [ div [ class "upper-left" ] [
-        img [ src model.okIconPath ] []
-      ]
-
-          , div [ class "col" ] []
-          , div [ class "col" ]
-              [ h1 [] [ text "Todos" ]
-              , form [ onSubmit AddTodo ]
-                  [ input
-                      [ value model.pendingTodo
-                      , placeholder "Enter new Todo here ..."
-                      , onInput UpdatePendingTodo
-                      ]
-                      []
-                  ]
-              , todoListView Incomplete "Incomplete" model.todos
-              , todoListView Completed "Completed" model.todos
-              ]
-          , div [ class "col" ] []
-          ]
-
-      ]
+    { title = "Simple Todos"
+    , body =
+        [ div [ class "flex-grid" ]
+            [ div [ class "upper-left" ]
+                [ img [ src model.images.actionOkIcon ] []
+                ]
+            , div [ class "upper-right" ]
+                [ img [ src model.images.actionCancelIcon ] []
+                ]
+            , div [ class "col" ] []
+            , div [ class "col" ]
+                [ h1 [] [ text "Todos" ]
+                , form [ onSubmit AddTodo ]
+                    [ input
+                        [ value model.pendingTodo
+                        , placeholder "Enter new Todo here ..."
+                        , onInput UpdatePendingTodo
+                        ]
+                        []
+                    ]
+                , todoListView Incomplete "Incomplete" model.todos
+                , todoListView Completed "Completed" model.todos
+                ]
+            , div [ class "col" ] []
+            ]
+        ]
     }
+
 
 todoListView : TodoStatus -> String -> TodoList -> Html Msg
 todoListView status statusName todolist =
@@ -179,19 +210,3 @@ todoView todo =
             []
         , text todo.description
         ]
-
-
-
----- PROGRAM ----
-
-
-main : Program String Model Msg
-main =
-      Browser.application
-    { init = init
-    , view = view
-    , update = update
-    , subscriptions = subscriptions
-    , onUrlRequest = ClickedLink
-    , onUrlChange = ChangedUrl
-    }
