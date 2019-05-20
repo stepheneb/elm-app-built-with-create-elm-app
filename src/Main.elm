@@ -3,8 +3,8 @@ module Main exposing (Model, Msg(..), init, main, update, view)
 import Array
 import Browser
 import Browser.Navigation
-import Html exposing (Html, button, div, form, h1, header, img, input, li, text, ul)
-import Html.Attributes exposing (alt, checked, class, placeholder, src, title, type_, value)
+import Html exposing (Html, a, button, div, form, h1, header, img, input, li, text, ul)
+import Html.Attributes exposing (alt, target, href, checked, class, placeholder, src, title, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
 import Url exposing (Url)
 
@@ -207,7 +207,15 @@ view model =
                 , todoListView Incomplete "Incomplete" model.todos
                 , todoListView Completed "Completed" model.todos
                 ]
-            , div [ class "col" ] []
+            , div [ class "col" ]
+                [ div [ class "header-details-right" ]
+                    [ a
+                        [ href "https://github.com/stepheneb/elm-app-built-with-create-elm-app"
+                        , target "_blank"
+                        ]
+                        [ text "source code" ]
+                    ]
+                ]
             ]
         ]
     }
