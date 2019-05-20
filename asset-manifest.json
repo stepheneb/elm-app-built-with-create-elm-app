@@ -1,11 +1,12 @@
 {
-  "main.css": "/elm-app-built-with-create-elm-app/static/css/main.ce2a4f20.chunk.css",
-  "main.js": "/elm-app-built-with-create-elm-app/static/js/main.dfc76534.chunk.js",
-  "main.css.map": "/elm-app-built-with-create-elm-app/static/css/main.ce2a4f20.chunk.css.map",
-  "main.js.map": "/elm-app-built-with-create-elm-app/static/js/main.dfc76534.chunk.js.map",
+  "main.css": "/elm-app-built-with-create-elm-app/static/css/main.9e8dcc7d.chunk.css",
+  "main.js": "/elm-app-built-with-create-elm-app/static/js/main.e46361b7.chunk.js",
+  "main.css.map": "/elm-app-built-with-create-elm-app/static/css/main.9e8dcc7d.chunk.css.map",
+  "main.js.map": "/elm-app-built-with-create-elm-app/static/js/main.e46361b7.chunk.js.map",
   "runtime~main.js": "/elm-app-built-with-create-elm-app/static/js/runtime~main.573d5742.js",
   "runtime~main.js.map": "/elm-app-built-with-create-elm-app/static/js/runtime~main.573d5742.js.map",
   "vendors~main.js": "/elm-app-built-with-create-elm-app/static/js/vendors~main.3ca81432.chunk.js",
   "vendors~main.js.map": "/elm-app-built-with-create-elm-app/static/js/vendors~main.3ca81432.chunk.js.map",
-  "index.html": "/elm-app-built-with-create-elm-app/index.html"
+  "index.html": "/elm-app-built-with-create-elm-app/index.html",
+  "static/media/wet-pink-tulip-small.jpg": "/elm-app-built-with-create-elm-app/static/media/wet-pink-tulip-small.7a719004.jpg"
 }
