@@ -40,9 +40,9 @@ div.header-details-right {
   }
 }
 
-img {
+img.icon {
   margin: 20px 0;
-  max-width: 200px;
+  max-height: 144px;
 }
 
 div.upper-left {
@@ -61,6 +61,16 @@ div.lower-left {
   position: absolute;
   bottom: 10px;
   left: 20px;
+}
+
+div.lower-center {
+  position: absolute;
+  width: 128px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 10px;
 }
 
 div.lower-right {

@@ -19,6 +19,7 @@ type alias Images =
     , actionCancelIcon : String
     , appBabelfishIcon : String
     , wetPinkTulipSmall : String
+    , fivePointedStar : String
     }
 
 
@@ -174,12 +175,13 @@ view model =
     , body =
         [ div [ class "flex-grid" ]
             [ div [ class "upper-left" ]
-                [ img [ src model.img.actionOkIcon ] []
+                [ img [ src model.img.actionOkIcon, class "icon"  ] []
                 ]
             , div
                 [ class "upper-right" ]
                 [ img
                     [ src model.img.actionCancelIcon
+                    , class "icon"
                     , alt "Erase all Todos"
                     , title "Erase all Todos"
                     , onClick EraseAllTodos
@@ -187,10 +189,13 @@ view model =
                     []
                 ]
             , div [ class "lower-left" ]
-                [ img [ src model.img.appBabelfishIcon ] []
+                [ img [ src model.img.appBabelfishIcon, class "icon"  ] []
+                ]
+            , div [ class "lower-center" ]
+                [ img [ src model.img.fivePointedStar, class "icon"  ] []
                 ]
             , div [ class "lower-right" ]
-                [ img [ src model.img.wetPinkTulipSmall ] []
+                [ img [ src model.img.wetPinkTulipSmall, class "icon"  ] []
                 ]
 
             , div [ class "col" ] []
