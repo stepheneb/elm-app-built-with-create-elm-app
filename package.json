@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "elm-app build",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "build": "npm run build-css && elm-app build",
     "deploy": "gh-pages -d build",
     "build-deploy": "elm-app build && gh-pages -d build"
   },
@@ -22,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/stepheneb/elm-app-built-with-create-elm-app/issues"
   },
-  "homepage": "https://github.com/stepheneb/elm-app-built-with-create-elm-app#readme"
+  "homepage": "https://github.com/stepheneb/elm-app-built-with-create-elm-app#readme",
+  "dependencies": {
+    "node-sass-chokidar": "^1.3.4"
+  }
 }

@@ -9,9 +9,6 @@
   height: inherit;
 }
 
-html {
-}
-
 * {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   font-size:24px;
@@ -25,7 +22,7 @@ body {
 }
 
 h1 {
-  font-size: 2em;
+  font-size: 1.4em;
 }
 
 header {
@@ -59,7 +56,7 @@ div.lower-left {
 div.lower-right {
   position: absolute;
   bottom: 10px;
-  right: 20px;
+  right: 25px;
 }
 
 input {
