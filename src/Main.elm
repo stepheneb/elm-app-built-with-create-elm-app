@@ -1,11 +1,12 @@
-module Main exposing (Model, Msg(..), init, main, update, view)
+module Main exposing (Model, Msg(..), main, update, view)
 
-import Array
+import Api exposing (Flags, Images, Todo, TodoList, TodoStatus(..))
 import Browser
 import Browser.Navigation
 import Html exposing (Html, a, button, div, form, h1, header, img, input, li, text, ul)
-import Html.Attributes exposing (alt, target, href, checked, class, placeholder, src, title, type_, value)
+import Html.Attributes exposing (alt, checked, class, href, placeholder, src, target, title, type_, value)
 import Html.Events exposing (onClick, onInput, onSubmit)
+import Json.Decode as D exposing (Value)
 import Url exposing (Url)
 
 
@@ -13,20 +14,9 @@ import Url exposing (Url)
 ---- PROGRAM ----
 
 
-
-type alias Images =
-    { actionOkIcon : String
-    , actionCancelIcon : String
-    , appBabelfishIcon : String
-    , wetPinkTulipSmall : String
-    , fivePointedStar : String
-    }
-
-
-
-main : Program Images Model Msg
+main : Program Value Model Msg
 main =
-    Browser.application
+    Api.application
         { init = init
         , view = view
         , update = update
@@ -36,27 +26,13 @@ main =
         }
 
 
-init : Images -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
-init images url key =
-    ( initialModel images url key, Cmd.none )
+init : Result D.Error Flags -> Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init resultFlags url key =
+    ( initialModel resultFlags url key, Cmd.none )
 
 
 
 ---- MODEL ----
-
-type TodoStatus
-    = Incomplete
-    | Completed
-
-
-type alias Todo =
-    { description : String
-    , status : TodoStatus
-    }
-
-
-type alias TodoList =
-    List Todo
 
 
 type alias Model =
@@ -68,16 +44,43 @@ type alias Model =
     }
 
 
-initialModel : Images -> Url.Url -> Browser.Navigation.Key -> Model
-initialModel images url key =
-    { todos =
-        [ { description = "First todo", status = Incomplete }
-        , { description = "Second todo", status = Completed }
-        ]
-    , pendingTodo = ""
-    , url = url
-    , key = key
-    , img = images
+initialModel : Result D.Error Flags -> Url.Url -> Browser.Navigation.Key -> Model
+initialModel resultFlags url key =
+    case resultFlags of
+        Ok flags ->
+            { todos = flags.todos
+            , pendingTodo = ""
+            , url = url
+            , key = key
+            , img = flags.images
+            }
+
+        Err error ->
+            { todos = []
+            , pendingTodo = "Decode.Error: " ++ errorMessage error
+            , url = url
+            , key = key
+            , img = nullImages
+            }
+
+
+errorMessage : D.Error -> String
+errorMessage error =
+    D.errorToString error
+
+
+missingImage : String
+missingImage =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAAAAADFHGIkAAABBklEQVR4nGSSYW+CMBCG+/9/zIp3UEKi\n39BlxHbTGXSyZFmGmfwAMrLZ3oqlpuD7pe096dNrcgwRZ3ySyBYZAj4qOc5aADJYzItfGueQpcC4apK8\nC8vmFap1xLikWjwFRJdYkuQ9oHOyam/1LRyNB3RK8p/Bs4G9XTy42fTeekJATbJsr553MwZ0EnlnnuHg\nTgGgOi12cWnuAX3jw9HvQ6DLOC66e/Cn4o9zmrdToF/Qvvsllt0YXHZYud7cfzzoPc7RONsAtII334+z\nOXDZOo//qbX1QBnpPYPN3lGcRcUGKhqlFsVqxjDOPmmSZn4dhmw6C1It7DAgQjQdHw6I/wAAAP//AwC1\npfgvpa6WEwAAAABJRU5ErkJggg=="
+
+
+nullImages : Images
+nullImages =
+    { actionOkIcon = missingImage
+    , actionCancelIcon = missingImage
+    , appBabelfishIcon = missingImage
+    , wetPinkTulipSmall = missingImage
+    , fivePointedStar = missingImage
     }
 
 
@@ -175,7 +178,7 @@ view model =
     , body =
         [ div [ class "flex-grid" ]
             [ div [ class "upper-left" ]
-                [ img [ src model.img.actionOkIcon, class "icon"  ] []
+                [ img [ src model.img.actionOkIcon, class "icon" ] []
                 ]
             , div
                 [ class "upper-right" ]
@@ -189,15 +192,14 @@ view model =
                     []
                 ]
             , div [ class "lower-left" ]
-                [ img [ src model.img.appBabelfishIcon, class "icon"  ] []
+                [ img [ src model.img.appBabelfishIcon, class "icon" ] []
                 ]
             , div [ class "lower-center" ]
-                [ img [ src model.img.fivePointedStar, class "icon"  ] []
+                [ img [ src model.img.fivePointedStar, class "icon" ] []
                 ]
             , div [ class "lower-right" ]
-                [ img [ src model.img.wetPinkTulipSmall, class "icon"  ] []
+                [ img [ src model.img.wetPinkTulipSmall, class "icon" ] []
                 ]
-
             , div [ class "col" ] []
             , div [ class "col" ]
                 [ h1 [] [ text "Todos" ]

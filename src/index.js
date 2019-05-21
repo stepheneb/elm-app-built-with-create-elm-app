@@ -18,13 +18,17 @@ function importAll(r) {
 // image names are converted to 'camelCase' and file suffixes are removed
 const images = importAll(require.context('../assets/images', false, /\.(png|jpe?g|gif|svg)$/));
 
+const todos = [
+  { description: "First todo", status: "Incomplete" },
+  { description: "Second todo", status: "Completed" }
+];
 
 import { Elm } from './Main.elm';
 import registerServiceWorker from './registerServiceWorker';
 
 Elm.Main.init({
   node: document.getElementById('root'),
-  flags: images
+  flags: { todos: todos, images: images }
 });
 
 registerServiceWorker();
